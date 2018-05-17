@@ -11,10 +11,18 @@ import UIKit
 class TodoListViewController: UITableViewController {
     
     var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogorgon"]
+    
+    let defaults = UserDefaults.standard
+    
+    //UserDefaults is an interface to user database where you store key value pair consistently
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        if let item = defaults.array(forKey: "TodoListArray") as? [String]{
+            itemArray = item
+        }
     }
 
   //Mark-Tableview datasource Method
@@ -63,7 +71,10 @@ class TodoListViewController: UITableViewController {
             print("Success")
             self.itemArray.append(textField.text!)
             
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
+            
             self.tableView.reloadData()
+            
             
         }
         
